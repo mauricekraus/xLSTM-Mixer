@@ -12,12 +12,12 @@ The code will be made available shortly. Stay tuned for updates.
 If you find this work helpful, please consider citing our paper using the following BibTeX entry:
 
 ```bibtex
-@article{xLSTM-Mixer2024,
-  author    = {Your Name and Co-Author Name},
+@article{krausxLSTM-Mixer2024,
+  author    = {Maurice Kraus and Felix Divo and Devendra Singh Dhami and Kristian Kersting},
   title     = {xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar Memories},
-  journal   = {Journal Name or arXiv preprint},
+  journal   = {arXiv preprint},
   year      = {2024},
-  url       = {Link to the paper},
+  url       = {https://arxiv.org/abs/2410.16928},
 }
 ```
 
