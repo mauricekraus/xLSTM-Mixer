@@ -6,6 +6,9 @@ This repository provides the supplemental code for the paper **"xLSTM-Mixer: Mul
 
 [![arXiv](https://img.shields.io/badge/arXiv-2410.16928-b31b1b.svg?style=flat-square)](https\://arxiv.org/abs/2410.16928)
 
+## Abstract
+Time series data is prevalent across numerous fields, necessitating the development of robust and accurate forecasting models. Capturing patterns both within and between temporal and multivariate components is crucial for reliable predictions. We introduce xLSTM-Mixer, a model designed to effectively integrate temporal sequences, joint time-variate information, and multiple perspectives for robust forecasting. Our approach begins with a linear forecast shared across variates, which is then refined by xLSTM blocks. These blocks serve as key elements for modeling the complex dynamics of challenging time series data. xLSTM-Mixer ultimately reconciles two distinct views to produce the final forecast. Our extensive evaluations demonstrate xLSTM-Mixer's superior long-term forecasting performance compared to recent state-of-the-art methods. A thorough model analysis provides further insights into its key components and confirms its robustness and effectiveness. This work contributes to the resurgence of recurrent models in time series forecasting.
+
 ## Table of Contents
 
 1. [Datasets](#used-datasets)
