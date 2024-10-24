@@ -1,0 +1,29 @@
+numpy
+matplotlib
+seaborn
+plotly
+darts
+rich
+pyrootutils
+python-dotenv
+black
+pynvim
+debugpy
+einops
+# jupyter
+ipykernel
+jupyter
+ipywidgets
+scikit-learn
+captum
+aim==3.18.1
+torchmetrics
+optuna
+optuna-dashboard
+wandb
+# xlstm
+xlstm==1.0.3
+torchinfo
+patool
+sktime
+reformer_pytorch

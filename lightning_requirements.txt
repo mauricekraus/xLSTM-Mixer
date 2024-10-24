@@ -1,0 +1,6 @@
+# needed for lightning cli
+hydra-core
+jsonargparse
+omegaconf
+jsonargparse[signatures]
+lightning

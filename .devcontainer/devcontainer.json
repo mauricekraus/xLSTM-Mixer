@@ -1,0 +1,41 @@
+{
+    "name": "xlstm_mixer",
+    "build": {
+      "dockerfile": "../.docker/Dockerfile",
+      "context": "..",
+      "args": {
+        "COMPOSE_PROJ_NAME": "xlstm-mixer",
+        "KIND": "3.11"
+      }
+    },
+    
+    "mounts": [
+      "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+      "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+      // mount common-ts 
+      "source=/storage-01/common-ts,target=/common-ts,type=bind,consistency=cached",
+    ],
+    "remoteUser": "root", // More info: https://aka.ms/dev-containers-non-root
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "tamasfe.even-better-toml",
+          "github.copilot",
+          "genieai.chatgpt-vscode",
+          "ms-toolsai.jupyter",
+          "mikestead.dotenv",
+          "ms-python.black-formatter"
+        ]
+      }
+    },
+    "runArgs": [
+      "--gpus",
+      // multiple gpus
+      // "all",
+      // "\"device=0,1,2,3\"" ,
+      "device=0",
+      "--shm-size",
+      "50G"
+    ]
+  }
