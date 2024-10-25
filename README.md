@@ -1,6 +1,6 @@
 # xLSTM-Mixer
 
-![Hero](method.png)
+![Architecture Overview](method.png)
 
 This repository provides the supplemental code for the paper **"xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar Memories"**.
 
@@ -120,4 +120,3 @@ If you find this work helpful, please consider citing our paper using the follow
   url       = {https://arxiv.org/abs/2410.16928},
 }
 ```
-
