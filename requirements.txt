@@ -16,7 +16,6 @@ jupyter
 ipywidgets
 scikit-learn
 captum
-aim==3.18.1
 torchmetrics
 optuna
 optuna-dashboard
