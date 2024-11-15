@@ -72,6 +72,8 @@ class TSLibDataModule(LightningDataModule):
                 self.val_dataset, _ = data_provider(self, val_flag)
             case "test":
                 self.test_dataset, _ = data_provider(self, test_flag)
+            case _:
+                raise NotImplementedError(f"Stage {stage} not supported")
 
     def _make_dataloader(self, dataset: Dataset, shuffle: bool = True):
         if self.task == Task.CLASSIFICATION:
@@ -158,6 +160,10 @@ class TSLibDataModule(LightningDataModule):
                 self.enc_in = 137
                 self.root_path /= "solar"
                 self.data_path = "solar_AL.txt"
+            case "Exchange":
+                self.enc_in = 137
+                self.root_path /= "exchange_rate"
+                self.data_path = "exchange_rate.csv"
             case _:
                 raise UserWarning(f"Dataset {self.dataset_name} not supported")
 

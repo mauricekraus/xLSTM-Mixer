@@ -83,6 +83,7 @@ class Dataset_ETT_hour(Dataset):
 
         self.data_x = data[border1:border2]
         self.data_y = data[border1:border2]
+        self._data_all = data
 
         if self.set_type == 0 and self.args.augmentation_ratio > 0:
             self.data_x, self.data_y, augmentation_tags = run_augmentation_single(self.data_x, self.data_y, self.args)
@@ -178,6 +179,7 @@ class Dataset_ETT_minute(Dataset):
 
         self.data_x = data[border1:border2]
         self.data_y = data[border1:border2]
+        self._data_all = data
 
         if self.set_type == 0 and self.args.augmentation_ratio > 0:
             self.data_x, self.data_y, augmentation_tags = run_augmentation_single(self.data_x, self.data_y, self.args)
@@ -281,6 +283,7 @@ class Dataset_Custom(Dataset):
 
         self.data_x = data[border1:border2]
         self.data_y = data[border1:border2]
+        self._data_all = data
 
         if self.set_type == 0 and self.args.augmentation_ratio > 0:
             self.data_x, self.data_y, augmentation_tags = run_augmentation_single(self.data_x, self.data_y, self.args)
@@ -796,6 +799,7 @@ class Dataset_PEMS(Dataset):
 
         self.data_x = df
         self.data_y = df
+        self._data_all = df
 
     def __getitem__(self, index):
         if self.set_type == 2:  # test:首尾相连
@@ -885,6 +889,7 @@ class Dataset_Solar(Dataset):
 
         self.data_x = data[border1:border2]
         self.data_y = data[border1:border2]
+        self._data_all = data
 
     def __getitem__(self, index):
         s_begin = index
