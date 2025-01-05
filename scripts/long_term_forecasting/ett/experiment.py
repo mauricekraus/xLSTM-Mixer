@@ -1,10 +1,8 @@
 import argparse
 import subprocess
 import os
-# Default values
 dev_run = False
 
-# Define the function to run the experiment
 def run_experiment(seed, dev_run):
     dataset = "ETTm1"
     pred_len = 96
@@ -24,7 +22,6 @@ def run_experiment(seed, dev_run):
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "0" 
 
-    # Prepare the command arguments
     command = [
         "python", "-m", "xlstm_mixer", "fit+test",
         "--data", "ForecastingTSLibDataModule",
@@ -54,13 +51,11 @@ def run_experiment(seed, dev_run):
         "--trainer.logger.project", "xlstm-mixer",
         "--trainer.max_epochs", "40",
         "--seed_everything", str(seed),
-        "--trainer.fast_dev_run", str(dev_run).lower()  # Convert boolean to string
+        "--trainer.fast_dev_run", str(dev_run).lower()  
     ]
 
-    # Execute the command
     subprocess.run(command)
 
-# Argument parsing for --dev flag
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Run xLSTM Mixer experiments")
     parser.add_argument(
@@ -68,17 +63,12 @@ def parse_arguments():
     )
     return parser.parse_args()
 
-# Main entry point
 if __name__ == "__main__":
-    # Parse command-line arguments
     args = parse_arguments()
 
-    # If --dev flag is passed, set dev_run to True
     dev_run = args.dev
 
-    # List of seeds to loop over
     seeds = [2021, 2022, 2023]
 
-    # Loop through the seeds and run the experiment for each
     for seed in seeds:
         run_experiment(seed, dev_run)
