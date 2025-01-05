@@ -17,7 +17,7 @@ from ..models.lib_models.iTransformer_fixed import iTransformer
 from ..models.lstm import LSTM
 
 from ..utils.torchmetric_ext import CappedMeanAbsolutePercentageError
-from ..lit.enums import Task, ForecastingTaskOptions, TimeFreq
+from ..lit.enums import Task, ForecastingTaskOptions, ClassificationTaskOptions, TimeFreq
 from torch import nn
 import torchmetrics as tm
 
@@ -275,3 +275,88 @@ class ShortTermForecastingExp(ForecastingExp):
         )
 
 
+class ClassificationExp(LightningModule):
+    def __init__(
+        self,
+        criterion: nn.Module,
+        architecture: BaseModel,  # xLSTMMixer or any other classification model
+        task: Task,
+        task_options: ClassificationTaskOptions = ClassificationTaskOptions.BINARY,
+        metrics: list[tm.Metric] | dict[str, tm.Metric] = [tm.Accuracy(task='binary')],
+    ) -> None:
+        super().__init__()
+        self.task_options = task_options
+        self.criterion = criterion
+
+        # Classification metrics
+        self.train_metrics = tm.MetricCollection(metrics, prefix="train/")
+        self.val_metrics = self.train_metrics.clone(prefix="val/")
+        self.test_metrics = self.train_metrics.clone(prefix="test/")
+
+        # Initialize the model with the provided class and kwargs
+        self.model = architecture
+        self.model.task = task
+
+        self.task = task
+
+        # For classification tasks, you might not need some forecasting-specific attributes
+        self.val_outputs = []
+        self.val_targets = []
+        self.test_outputs = []
+        self.test_targets = []
+
+    def training_step(self, batch, batch_idx):
+        # For classification, the batch will contain (input, target) pairs
+        batch_x, batch_y, batch_x_mark, batch_y_mark = batch
+        batch_x = batch_x.float()
+        batch_y = batch_y.long()  # Ensure the labels are integers for classification
+
+        # Forward pass through the model
+        outputs = self.model(batch_x, batch_x_mark, batch_y_mark)
+
+        # Calculate loss (cross entropy for classification)
+        loss = self.criterion(outputs, batch_y)
+
+        # Log metrics
+        self.log("train/loss", loss, prog_bar=True, on_epoch=True, on_step=True)
+        self.log_dict(self.train_metrics(outputs, batch_y), prog_bar=False, on_epoch=True, on_step=False)
+
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        batch_x, batch_y, batch_x_mark, batch_y_mark = batch
+        batch_x = batch_x.float()
+        batch_y = batch_y.long()
+
+        # Forward pass through the model
+        outputs = self.model(batch_x, batch_x_mark, batch_y_mark)
+
+        # Calculate loss
+        loss = self.criterion(outputs, batch_y)
+
+        # Log validation metrics
+        self.log("val/loss", loss, prog_bar=True, on_epoch=True, on_step=False)
+        self.log_dict(self.val_metrics(outputs, batch_y), prog_bar=True, on_epoch=True, on_step=False)
+
+        return loss
+
+    def test_step(self, batch, batch_idx):
+        batch_x, batch_y, batch_x_mark, batch_y_mark = batch
+        batch_x = batch_x.float()
+        batch_y = batch_y.long()
+
+        # Forward pass through the model
+        outputs = self.model(batch_x, batch_x_mark, batch_y_mark)
+
+        # Calculate loss
+        loss = self.criterion(outputs, batch_y)
+
+        # Log test metrics
+        self.log_dict(self.test_metrics(outputs, batch_y), prog_bar=True, on_epoch=True, on_step=False)
+
+        return loss
+
+    def configure_optimizers(self):
+        # Example optimizer (Adam)
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
+        return optimizer

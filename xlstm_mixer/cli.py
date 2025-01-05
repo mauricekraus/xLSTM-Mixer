@@ -16,6 +16,7 @@ from xlstm_mixer.exp.exp import (
     LongTermForecastingExp,
     ShortTermForecastingExp,
     ForecastingExp,
+    ClassificationExp
 )
 import torch.optim as optim
 
@@ -113,6 +114,36 @@ def fit_and_test(rest_args):
     mae_test = cli.trainer.logged_metrics["test/MeanAbsoluteError"].item()
 
     return {"mse_test": mse_test, "mae_test": mae_test}
+
+def fit_and_test_classification(rest_args):
+    cli = TaskCLI(
+        ClassificationExp,
+        TSLibDataModule,
+        subclass_mode_data=True,
+        subclass_mode_model=True,
+        run=False,
+        args=rest_args,
+        save_config_callback=LoggerSaveConfigCallback,
+    )
+    cli.trainer.fit(cli.model, cli.datamodule)
+    cli.trainer.callbacks = [
+        cb
+        for cb in cli.trainer.callbacks
+        if not isinstance(cb, StochasticWeightAveraging)
+    ]
+    if cli.trainer.fast_dev_run:
+        print("Fast dev run, skipping test")
+        print(cli.trainer.logged_metrics)
+        return
+    
+    cli.trainer.test(
+        cli.model,
+        cli.datamodule,
+        ckpt_path=cli.trainer.checkpoint_callback.best_model_path,
+    )
+    wandb.finish()
+    return
+
 
 
 def tune(rest_args):
@@ -220,6 +251,9 @@ def main():  # pragma: no cover
     if len(args) > 1:
         args = args[1:]
         match args:
+            case ("fit+test-classification", *rest_args):
+                fit_and_test_classification(rest_args)
+                return
             case ("fit+test", *rest_args):
                 fit_and_test(rest_args)
                 return

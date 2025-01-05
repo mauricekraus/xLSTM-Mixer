@@ -15,7 +15,7 @@ class TSLibDataModule(LightningDataModule):
         batch_size: int = 128,
         num_workers: int = 4,
                 persistent_workers: bool = False,
-        root_path: Path = Path("/common-ts/datasets/tslib_datasets"),
+        root_path: Path = Path("/groups/nshomron/benjaminbr/xLSTM-Mixer/common-ts/datasets/tslib_datasets"),
         augmentation_ratio: int = 0,
         test_mode: bool = False,
     ):
@@ -204,7 +204,7 @@ class ForecastingTSLibDataModule(TSLibDataModule):
         persistent_workers: bool = False,
         embed: Literal["timeF", "fixed", "learned"] = "timeF",
         freq: TimeFreq = TimeFreq.HOURLY,
-        root_path: Path = Path("/common-ts/datasets/tslib_datasets"),
+        root_path: Path = Path("/groups/nshomron/benjaminbr/xLSTM-Mixer/common-ts/datasets/tslib_datasets"),
         seasonal_patterns: str = "Monthly",
         forecasting_option: ForecastingTaskOptions = ForecastingTaskOptions.MULTIVARIATE_2_MULTIVARIATE,
         target: str = "OT",
@@ -253,7 +253,7 @@ class ClassificationTSLibDataModule(TSLibDataModule):
         task: Task = Task.CLASSIFICATION,
         seq_len: int = 96,
         num_workers: int = 0,
-        root_path: Path = Path("/common-ts/datasets/tslib_datasets"),
+        root_path: Path = Path("/groups/nshomron/benjaminbr/xLSTM-Mixer/common-ts/datasets/tslib_datasets"),
         augmentation_ratio: int = 0,
     ):
         super().__init__(

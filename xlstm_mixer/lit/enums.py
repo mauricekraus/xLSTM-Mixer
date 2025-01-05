@@ -17,6 +17,11 @@ class ForecastingTaskOptions(Enum):
     MULTIVARIATE_2_UNIVARIATE = "MS"
     UNIVARIATE_2_UNIVARIATE = "S"
 
+class ClassificationTaskOptions(Enum):
+    BINARY = "B"  
+    MULTICLASS = "M"  
+    MULTILABEL = "ML"
+
 
 class TimeFreq(Enum):
     SECONDLY = "s"

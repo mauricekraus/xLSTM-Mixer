@@ -1,0 +1,7 @@
+fit:
+  data: /path/to/your/data/dataset.csv  # Path to your dataset
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.001
+
+
