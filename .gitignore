@@ -1,9 +1,13 @@
 __pycache__
-Wandb/
+wandb/
 Python3.10/
 **/build/
 **/*.gcda
 **/build/
 **/*.gcda
 **/Python-3.10.12/
-
+config.yaml
+**/python3.10/
+common-ts/datasets/
+python3.10.12/
+outputs/
